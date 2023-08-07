@@ -28,5 +28,6 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           );
         }
+        return null;
       });
 });
