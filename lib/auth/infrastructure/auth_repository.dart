@@ -5,8 +5,8 @@ import 'package:oxidized/oxidized.dart';
 
 import '../domain/user.dart' as model;
 
-// final authenticatedProvider =
-//     StreamProvider<User?>((ref) => FirebaseAuth.instance.authStateChanges());
+final isAuthenticatedStreamProvider =
+    Provider<Stream<User?>>((ref) => FirebaseAuth.instance.authStateChanges());
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository();

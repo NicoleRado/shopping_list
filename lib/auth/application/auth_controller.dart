@@ -1,17 +1,47 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/auth_failure.dart';
 import '../infrastructure/auth_repository.dart';
 import 'auth_state.dart';
 
-final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
-    (ref) => AuthController(ref.read(authRepositoryProvider)));
+final authControllerProvider =
+    StateNotifierProvider<AuthController, AuthState>((ref) => AuthController(
+          ref.read(authRepositoryProvider),
+          ref.read(isAuthenticatedStreamProvider),
+        ));
 
 class AuthController extends StateNotifier<AuthState> {
-  AuthController(this.authRepository)
-      : super(const AuthState.isUnauthenticated());
+  AuthController(this.authRepository, this.isAuthenticatedStream)
+      : super(const AuthState.isUnauthenticated()) {
+    authStateChanges = isAuthenticatedStream.listen(
+      (user) async {
+        if (user == null) {
+          state = const AuthState.isUnauthenticated();
+        } else {
+          final userData = await authRepository.getUserData();
+          state = userData.when(
+            ok: (user) => AuthState.isAuthenticated(user: user),
+            err: (_) => const AuthState.isFailure(
+              authFailure: AuthFailure.userDataFailure(),
+            ),
+          );
+        }
+      },
+    );
+  }
 
   final AuthRepository authRepository;
+  final Stream<User?> isAuthenticatedStream;
+  StreamSubscription? authStateChanges;
+
+  @override
+  void dispose() {
+    authStateChanges?.cancel();
+    super.dispose();
+  }
 
   Future<void> login({
     required String email,
@@ -23,17 +53,9 @@ class AuthController extends StateNotifier<AuthState> {
       email: email,
       password: password,
     );
-    state = await result.whenAsync(
-      ok: (_) async {
-        final userData = await authRepository.getUserData();
-        return userData.when(
-          ok: (user) => AuthState.isAuthenticated(user: user),
-          err: (_) => const AuthState.isFailure(
-            authFailure: AuthFailure.userDataFailure(),
-          ),
-        );
-      },
-      err: (_) async => const AuthState.isFailure(
+    state = await result.when(
+      ok: (_) => state,
+      err: (_) => const AuthState.isFailure(
         authFailure: AuthFailure.loginFailure(),
       ),
     );
@@ -49,17 +71,9 @@ class AuthController extends StateNotifier<AuthState> {
       email: email,
       password: password,
     );
-    state = await result.whenAsync(
-      ok: (_) async {
-        final userData = await authRepository.getUserData();
-        return userData.when(
-          ok: (user) => AuthState.isAuthenticated(user: user),
-          err: (_) => const AuthState.isFailure(
-            authFailure: AuthFailure.userDataFailure(),
-          ),
-        );
-      },
-      err: (err) async => AuthState.isFailure(
+    state = await result.when(
+      ok: (_) => state,
+      err: (err) => AuthState.isFailure(
         authFailure: AuthFailure.registerFailure(message: err.message),
       ),
     );
@@ -68,7 +82,7 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> signOut() async {
     final result = await authRepository.signOut();
     state = result.when(
-      ok: (_) => const AuthState.isUnauthenticated(),
+      ok: (_) => state,
       err: (_) => const AuthState.isFailure(
         authFailure: AuthFailure.signOutFailure(),
       ),
