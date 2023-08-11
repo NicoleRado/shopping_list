@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 
-import '../domain/user.dart' as model;
+import '../../lists/domain/user.dart' as model;
 
 final isAuthenticatedStreamProvider =
     Provider<Stream<User?>>((ref) => FirebaseAuth.instance.authStateChanges());
@@ -17,18 +17,6 @@ class AuthRepository {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Future<Result<model.User, AssertionError>> getUserData() async {
-    return Result.asyncOf(
-      () async {
-        final userId = _auth.currentUser!.uid;
-        final documentSnapshot =
-            await _firestore.collection('users').doc(userId).get();
-        final user = model.User.fromJson(documentSnapshot.data()!);
-        return user;
-      },
-    );
-  }
 
   Future<Result<Unit, FirebaseAuthException>> signInWithEmailAndPassword({
     required String email,
@@ -53,7 +41,7 @@ class AuthRepository {
           email: email,
           password: password,
         );
-        final user = model.User(uid: cred.user!.uid, email: email);
+        final user = model.User(uid: cred.user!.uid);
 
         await _firestore
             .collection('users')

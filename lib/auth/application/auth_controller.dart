@@ -17,17 +17,12 @@ class AuthController extends StateNotifier<AuthState> {
   AuthController(this.authRepository, this.isAuthenticatedStream)
       : super(const AuthState.isUnauthenticated()) {
     authStateChanges = isAuthenticatedStream.listen(
-      (user) async {
+      (user) {
         if (user == null) {
           state = const AuthState.isUnauthenticated();
         } else {
-          final userData = await authRepository.getUserData();
-          state = userData.when(
-            ok: (user) => AuthState.isAuthenticated(user: user),
-            err: (_) => const AuthState.isFailure(
-              authFailure: AuthFailure.userDataFailure(),
-            ),
-          );
+          print('------------------- ${user.uid} --------------------------');
+          state = AuthState.isAuthenticated(userId: user.uid);
         }
       },
     );

@@ -25,8 +25,6 @@ class SignInPage extends ConsumerWidget {
                         'Something went wrong during login. Please try again.',
                     registerFailure: (message) =>
                         'Something went wrong during register. $message. Please try again.',
-                    userDataFailure: () =>
-                        'Something went wrong during Data fetching. Please try again.',
                     signOutFailure: () =>
                         'Something went wrong during sign out. Please try again.'),
               ),
