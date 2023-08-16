@@ -82,6 +82,12 @@
         "menu_option_german" : "Deutsch",
         "menu_option_english" : "Englisch",
         "change_language_button_title" : "Sprache ändern"
+      },
+      "account_payment_dialog" : {
+        "account_payment_dialog_title" : "Konto Info",
+        "account_payment_info_text" : "Sie verwenden derzeit ein kostenloses Konto. Wenn Sie Listen mit anderen Nutzern teilen oder Listen bearbeiten möchten, benötigen Sie ein kostenpflichtiges Konto. Dieses kostet einmalig 5€.",
+        "account_payment_question" : "Möchten Sie die Funktionen eines kostenpflichtigen Kontos erwerben?",
+        "go_to_payment_button_title" : "Funktionen kaufen"
       }
     }
   }

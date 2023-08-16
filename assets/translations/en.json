@@ -82,6 +82,12 @@
         "menu_option_german" : "German",
         "menu_option_english" : "English",
         "change_language_button_title" : "Change Language"
+      },
+      "account_payment_dialog" : {
+        "account_payment_dialog_title" : "Account Info",
+        "account_payment_info_text" : "You are currently using a free account. If you want to share lists with other users or edit lists, you need a paid account. This costs 5€ once.",
+        "account_payment_question" : "Would you like to purchase the features of a paid account?",
+        "go_to_payment_button_title" : "Buy features"
       }
     }
   }

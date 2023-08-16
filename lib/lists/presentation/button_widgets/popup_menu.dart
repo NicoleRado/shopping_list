@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shopping_list/lists/presentation/dialogs/switch_language_dialog.dart';
 
 import '../../../auth/application/auth_controller.dart';
 import '../../../enums.dart';
+import '../dialogs/account_payment_dialog.dart';
+import '../dialogs/switch_language_dialog.dart';
 
 class PopupMenu extends ConsumerStatefulWidget {
   const PopupMenu({super.key});
@@ -36,12 +37,15 @@ class _PopupMenuState extends ConsumerState<PopupMenu> {
   void _onMenuItemSelected(PopupOptions value) {
     switch (value) {
       case PopupOptions.paidAccount:
-        () {};
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => const AccountPaymentDialog(),
+        );
         break;
       case PopupOptions.language:
         showDialog(
           context: context,
-          builder: (BuildContext context) => SwitchLanguageDialog(),
+          builder: (BuildContext context) => const SwitchLanguageDialog(),
         );
         break;
       case PopupOptions.logout:
