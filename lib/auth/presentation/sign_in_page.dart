@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shopping_list/auth/application/auth_controller.dart';
@@ -21,12 +22,14 @@ class SignInPage extends ConsumerWidget {
             SnackBar(
               content: Text(
                 next.when(
-                    loginFailure: () =>
-                        'Something went wrong during login. Please try again.',
-                    registerFailure: (message) =>
-                        'Something went wrong during register. $message. Please try again.',
-                    signOutFailure: () =>
-                        'Something went wrong during sign out. Please try again.'),
+                  loginFailure: () =>
+                      tr('sign_in_page.sign_in_error.login_failure'),
+                  registerFailure: (message) => tr(
+                      'sign_in_page.sign_in_error.register_failure',
+                      args: [message!]),
+                  signOutFailure: () =>
+                      tr('sign_in_page.sign_in_error.sign_out_failure'),
+                ),
               ),
             ),
           );
@@ -38,14 +41,14 @@ class SignInPage extends ConsumerWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Authenticate'),
+            title: const Text('sign_in_page.sign_in_page_title').tr(),
             centerTitle: true,
             backgroundColor: Theme.of(context).primaryColor,
             bottom: TabBar(
               labelColor: Theme.of(context).canvasColor,
-              tabs: const [
-                Tab(text: 'Login'),
-                Tab(text: 'Register'),
+              tabs: [
+                Tab(text: tr('sign_in_page.sign_in_tabs.login_tab_title')),
+                Tab(text: tr('sign_in_page.sign_in_tabs.register_tab_title')),
               ],
             ),
           ),

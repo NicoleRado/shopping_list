@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shopping_list/auth/application/auth_controller.dart';
@@ -30,7 +31,7 @@ class _SignInTabState extends ConsumerState<SignInTab> {
     if (input == null ||
         input.isEmpty ||
         !RegExp(Regex.email).hasMatch(input)) {
-      return '* Please enter a valid email address';
+      return tr('sign_in_page.validator_failure.email_failure');
     } else {
       return null;
     }
@@ -40,7 +41,7 @@ class _SignInTabState extends ConsumerState<SignInTab> {
     if (input == null ||
         input.isEmpty ||
         !RegExp(Regex.password).hasMatch(input)) {
-      return '* Password must contain eight characters, at least one letter and one number';
+      return tr('sign_in_page.validator_failure.password_failure');
     } else {
       return null;
     }
@@ -79,10 +80,11 @@ class _SignInTabState extends ConsumerState<SignInTab> {
                 autofocus: true,
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.mail_outline),
-                  labelText: 'Email',
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.mail_outline),
+                  labelText:
+                      tr('sign_in_page.text_form_field_title.email_label'),
                 ),
                 validator: validateEmailAddress,
               ),
@@ -92,10 +94,11 @@ class _SignInTabState extends ConsumerState<SignInTab> {
               child: TextFormField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock_outline),
-                  labelText: 'Password',
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  labelText:
+                      tr('sign_in_page.text_form_field_title.password_label'),
                   errorMaxLines: 2,
                 ),
                 validator: validatePassword,
@@ -112,8 +115,9 @@ class _SignInTabState extends ConsumerState<SignInTab> {
               },
               child: ref.watch(authControllerProvider).maybeWhen(
                     isLoading: () => const CircularProgressIndicator(),
-                    orElse: () =>
-                        Text(widget.isRegister ? 'Register' : 'Login'),
+                    orElse: () => Text(widget.isRegister
+                        ? tr('sign_in_page.button_title.register_button_title')
+                        : tr('sign_in_page.button_title.login_button_title')),
                   ),
             )
           ],
