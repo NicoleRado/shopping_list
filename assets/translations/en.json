@@ -1,0 +1,88 @@
+{
+  "app_title" : "Shopping List",
+  "common" : {
+    "cancel_button_title" : "Cancel",
+    "close_button_title" : "Close"
+  },
+  "sign_in_page" : {
+    "sign_in_page_title" : "Authenticate",
+    "sign_in_tabs" : {
+      "login_tab_title" : "Login",
+      "register_tab_title" : "Register"
+    },
+    "validator_failure" : {
+      "email_failure" : "* Please enter a valid email address",
+      "password_failure" : "* Password must contain eight characters, at least one letter and one number"
+    },
+    "text_form_field_title" : {
+      "email_label" : "Email",
+      "password_label" : "Password"
+    },
+    "button_title" : {
+      "register_button_title" : "Register",
+      "login_button_title" : "Login"
+    },
+    "sign_in_error" : {
+      "login_failure" : "Something went wrong during login. Please try again.",
+      "register_failure" : "Something went wrong during register. {}. Please try again.",
+      "sign_out_failure" : "Something went wrong during sign out. Please try again."
+    }
+  },
+  "list_page" : {
+    "list_page_title" : "List Overview",
+    "expandable_fab" : {
+      "add_list_label" : "Add List",
+      "join_list_label" : "Join List"
+    },
+    "popup_menu" : {
+      "paid_version_item_label" : "Paid Version",
+      "language_item_label" : "Language",
+      "logout_item_label" : "Logout"
+    },
+    "list_entry_button" : {
+      "edit_icon_button_tooltip" : "Edit",
+      "delete_icon_button_tooltip" : "Delete",
+      "share_icon_button_tooltip" : "Share"
+    },
+    "list_error" : {
+      "create_list_failure" : "Something went wrong during list creation. Please try again.",
+      "join_list_failure" : "Something went wrong during joining a List. Please try again.",
+      "delete_list_failure" : "Something went wrong during deleting a List. Please try again.",
+      "exit_list_failure" : "Something went wrong during leaving a List. Please try again."
+    },
+    "dialogs" : {
+      "add_list_dialog" : {
+        "create_list_dialog_title" : "Create List",
+        "join_list_dialog_title" : "Join List",
+        "create_list_dialog_instruction" : "Please enter a name for your List.",
+        "join_list_dialog_instruction" : "Please enter an id for your List.",
+        "text_form_field_create_label" : "List Name",
+        "text_form_field_join_label" : "List ID",
+        "validator_create_failure" : "* Please enter a valid list name",
+        "validator_join_failure" : "* Please enter a valid list id",
+        "create_button_title" : "Create List",
+        "join_button_title" : "Join List"
+      },
+      "delete_list_dialog" : {
+        "delete_list_dialog_title" : "Delete List",
+        "delete_info_text_own_list" : "This is your own List. If you delete your own List, it will be deleted for all users.",
+        "delete_info_text_invited_list" : "This is not your own List. If you delete this List, it will be deleted only for you.",
+        "delete_question" : "Do you realy want to delete the List?",
+        "delete_button_title" : "Delete List"
+      },
+      "share_list_dialog" : {
+        "share_list_dialog_title" : "Share List",
+        "share_list_dialog_instruction" : "You can invite users to your list by sharing your list ID with them.",
+        "copy_to_clipboard_tooltip" : "Copy to clipboard",
+        "share_list_dialog_info_text" : "If the other user is using a paid account, he/she can access the the list via the \"{}\" button and enter the ID in the dialog."
+      },
+      "switch_language_dialog" : {
+        "switch_language_dialog_title" : "Change Language",
+        "switch_language_dialog_instruction" : "Please choose your preferred language.",
+        "menu_option_german" : "German",
+        "menu_option_english" : "English",
+        "change_language_button_title" : "Change Language"
+      }
+    }
+  }
+}

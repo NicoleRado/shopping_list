@@ -1,0 +1,88 @@
+{
+  "app_title" : "Shopping List",
+  "common" : {
+    "cancel_button_title" : "Abbrechen",
+    "close_button_title" : "Schließen"
+  },
+  "sign_in_page" : {
+    "sign_in_page_title" : "Authentifizierung",
+    "sign_in_tabs" : {
+      "login_tab_title" : "Anmelden",
+      "register_tab_title" : "Registieren"
+    },
+    "validator_failure" : {
+      "email_failure" : "* Bitte eine gültige Email Adresse angeben",
+      "password_failure" : "* Das Passwort muss acht Zeichen enthalten, mindestens einen Buchstaben und eine Zahl"
+    },
+    "text_form_field_title" : {
+      "email_label" : "Email",
+      "password_label" : "Passwort"
+    },
+    "button_title" : {
+      "register_button_title" : "Registieren",
+      "login_button_title" : "Anmelden"
+    },
+    "sign_in_error" : {
+      "login_failure" : "Bei der Anmeldung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "register_failure" : "Bei der Registrierung ist etwas schief gelaufen. {}. Bitte versuchen Sie es erneut.",
+      "sign_out_failure" : "Bei der Abmeldung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    }
+  },
+  "list_page" : {
+    "list_page_title" : "Listenübersicht",
+    "expandable_fab" : {
+      "add_list_label" : "Liste hinzufügen",
+      "join_list_label" : "Liste beitreten"
+    },
+    "popup_menu" : {
+      "paid_version_item_label" : "Kostenpflichtige Version",
+      "language_item_label" : "Sprache",
+      "logout_item_label" : "Abmelden"
+    },
+    "list_entry_button" : {
+      "edit_icon_button_tooltip" : "Bearbeiten",
+      "delete_icon_button_tooltip" : "Löschen",
+      "share_icon_button_tooltip" : "Teilen"
+    },
+    "list_error" : {
+      "create_list_failure" : "Bei der Erstellung der Liste ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "join_list_failure" : "Beim Beitritt zu einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut.",
+      "delete_list_failure" : "Beim Löschen einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut.",
+      "exit_list_failure" : "Beim Verlassen einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut."
+    },
+    "dialogs" : {
+      "add_list_dialog" : {
+        "create_list_dialog_title" : "Liste erstellen",
+        "join_list_dialog_title" : "Liste beitreten",
+        "create_list_dialog_instruction" : "Bitte geben Sie einen Namen für Ihre Liste ein.",
+        "join_list_dialog_instruction" : "Bitte geben Sie eine ID für Ihre Liste ein.",
+        "text_form_field_create_label" : "Name der Liste",
+        "text_form_field_join_label" : "ID der Liste",
+        "validator_create_failure" : "* Bitte geben Sie einen gültigen Listennamen ein",
+        "validator_join_failure" : "* Bitte geben Sie eine gültige Listen-ID ein",
+        "create_button_title" : "Liste erstellen",
+        "join_button_title" : "Liste beitreten"
+      },
+      "delete_list_dialog" : {
+        "delete_list_dialog_title" : "Liste löschen",
+        "delete_info_text_own_list" : "Dies ist Ihre eigene Liste. Wenn Sie Ihre eigene Liste löschen, wird sie für alle Benutzer gelöscht.",
+        "delete_info_text_invited_list" : "Dies ist nicht Ihre eigene Liste. Wenn Sie diese Liste löschen, wird sie nur für Sie gelöscht.",
+        "delete_question" : "Wollen Sie die Liste wirklich löschen?",
+        "delete_button_title" : "Liste löschen"
+      },
+      "share_list_dialog" : {
+        "share_list_dialog_title" : "Liste teilen",
+        "share_list_dialog_instruction" : "Sie können Benutzer zu Ihrer Liste einladen, indem Sie ihnen Ihre Listen-ID mitteilen.",
+        "copy_to_clipboard_tooltip" : "In die Zwischenablage kopieren",
+        "share_list_dialog_info_text" : "Wenn der andere Nutzer ein kostenpflichtiges Konto verwendet, kann er über die Option \"{}\"  die ID in das Dialogfeld eingeben und der Liste beitreten."
+      },
+      "switch_language_dialog" : {
+        "switch_language_dialog_title" : "Sprache ändern",
+        "switch_language_dialog_instruction" : "Bitte wählen Sie Ihre bevorzugte Sprache.",
+        "menu_option_german" : "Deutsch",
+        "menu_option_english" : "Englisch",
+        "change_language_button_title" : "Sprache ändern"
+      }
+    }
+  }
+}
