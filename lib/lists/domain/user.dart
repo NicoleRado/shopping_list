@@ -11,6 +11,7 @@ class User with _$User {
     required String uid,
     @Default([]) List<ListData> ownLists,
     @Default([]) List<ListData> invitedLists,
+    @Default(false) bool isPaidAccount,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
