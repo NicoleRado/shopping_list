@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AccountPaymentDialog extends StatelessWidget {
   const AccountPaymentDialog({super.key});
@@ -35,7 +36,10 @@ class AccountPaymentDialog extends StatelessWidget {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+            context.go('/accountPayment');
+          },
           child: const Text(
             'list_page.dialogs.account_payment_dialog.go_to_payment_button_title',
           ).tr(),

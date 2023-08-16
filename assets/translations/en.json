@@ -90,5 +90,8 @@
         "go_to_payment_button_title" : "Buy features"
       }
     }
+  },
+  "account_payment_page" : {
+    "account_payment_page_title" : "Purchase Account"
   }
 }
