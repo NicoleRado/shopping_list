@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shopping_list/auth/application/auth_controller.dart';
 
-import '../../constants.dart';
+import '../../helpers/domain/constants.dart';
+import '../application/auth_controller.dart';
 
 class SignInTab extends ConsumerStatefulWidget {
   const SignInTab({super.key, required this.isRegister});
@@ -27,7 +27,7 @@ class _SignInTabState extends ConsumerState<SignInTab> {
     super.dispose();
   }
 
-  String? validateEmailAddress(String? input) {
+  String? _validateEmailAddress(String? input) {
     if (input == null ||
         input.isEmpty ||
         !RegExp(Regex.email).hasMatch(input)) {
@@ -37,7 +37,7 @@ class _SignInTabState extends ConsumerState<SignInTab> {
     }
   }
 
-  String? validatePassword(String? input) {
+  String? _validatePassword(String? input) {
     if (input == null ||
         input.isEmpty ||
         !RegExp(Regex.password).hasMatch(input)) {
@@ -86,7 +86,7 @@ class _SignInTabState extends ConsumerState<SignInTab> {
                   labelText:
                       tr('sign_in_page.text_form_field_title.email_label'),
                 ),
-                validator: validateEmailAddress,
+                validator: _validateEmailAddress,
               ),
             ),
             Padding(
@@ -101,7 +101,7 @@ class _SignInTabState extends ConsumerState<SignInTab> {
                       tr('sign_in_page.text_form_field_title.password_label'),
                   errorMaxLines: 2,
                 ),
-                validator: validatePassword,
+                validator: _validatePassword,
               ),
             ),
             ElevatedButton(

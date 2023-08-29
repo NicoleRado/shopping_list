@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/auth_failure.dart';
@@ -10,26 +9,21 @@ import 'auth_state.dart';
 final authControllerProvider =
     StateNotifierProvider<AuthController, AuthState>((ref) => AuthController(
           ref.read(authRepositoryProvider),
-          ref.read(isAuthenticatedStreamProvider),
         ));
 
 class AuthController extends StateNotifier<AuthState> {
-  AuthController(this.authRepository, this.isAuthenticatedStream)
+  AuthController(this.authRepository)
       : super(const AuthState.isUnauthenticated()) {
-    authStateChanges = isAuthenticatedStream.listen(
-      (user) {
-        if (user == null) {
-          state = const AuthState.isUnauthenticated();
-        } else {
-          print('------------------- ${user.uid} --------------------------');
-          state = AuthState.isAuthenticated(userId: user.uid);
-        }
+    authStateChanges = authRepository.isAuthenticated().listen(
+      (isAuthenticated) {
+        state = isAuthenticated
+            ? const AuthState.isAuthenticated()
+            : const AuthState.isUnauthenticated();
       },
     );
   }
 
   final AuthRepository authRepository;
-  final Stream<User?> isAuthenticatedStream;
   StreamSubscription? authStateChanges;
 
   @override

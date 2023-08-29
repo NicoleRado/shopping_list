@@ -8,8 +8,7 @@ part 'auth_state.freezed.dart';
 class AuthState with _$AuthState {
   const factory AuthState.isUnauthenticated() = _IsUnauthenticated;
   const factory AuthState.isLoading() = _IsLoading;
-  const factory AuthState.isAuthenticated({required String userId}) =
-      _IsAuthenticated;
+  const factory AuthState.isAuthenticated() = _IsAuthenticated;
   const factory AuthState.isFailure({required AuthFailure authFailure}) =
       _IsFailure;
 }

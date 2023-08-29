@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shopping_list/auth/application/auth_controller.dart';
-import 'package:shopping_list/auth/presentation/sign_in_tab.dart';
+
+import '../../helpers/presentation/styled_scaffold.dart';
+import '../application/auth_controller.dart';
+import 'sign_in_tab.dart';
 
 class SignInPage extends ConsumerWidget {
   const SignInPage({super.key});
@@ -39,18 +41,14 @@ class SignInPage extends ConsumerWidget {
 
     return DefaultTabController(
         length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('sign_in_page.sign_in_page_title').tr(),
-            centerTitle: true,
-            backgroundColor: Theme.of(context).primaryColor,
-            bottom: TabBar(
-              labelColor: Theme.of(context).canvasColor,
-              tabs: [
-                Tab(text: tr('sign_in_page.sign_in_tabs.login_tab_title')),
-                Tab(text: tr('sign_in_page.sign_in_tabs.register_tab_title')),
-              ],
-            ),
+        child: StyledScaffold(
+          title: tr('sign_in_page.sign_in_page_title'),
+          bottom: TabBar(
+            labelColor: Theme.of(context).canvasColor,
+            tabs: [
+              Tab(text: tr('sign_in_page.sign_in_tabs.login_tab_title')),
+              Tab(text: tr('sign_in_page.sign_in_tabs.register_tab_title')),
+            ],
           ),
           body: const TabBarView(children: [
             SignInTab(isRegister: false),

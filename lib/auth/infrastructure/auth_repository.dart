@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 
+import '../../helpers/domain/constants.dart';
 import '../../lists/domain/user.dart' as model;
 
 final isAuthenticatedStreamProvider =
@@ -17,6 +18,15 @@ class AuthRepository {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Stream<bool> isAuthenticated() {
+    return FirebaseAuth.instance.authStateChanges().map((user) {
+      if (user == null) {
+        return false;
+      }
+      return true;
+    });
+  }
 
   Future<Result<Unit, FirebaseAuthException>> signInWithEmailAndPassword({
     required String email,
@@ -44,7 +54,7 @@ class AuthRepository {
         final user = model.User(uid: cred.user!.uid);
 
         await _firestore
-            .collection('users')
+            .collection(JsonParams.usersCollection)
             .doc(cred.user!.uid)
             .set(user.toJson());
 
