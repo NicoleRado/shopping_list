@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../lists/domain/list_failure.dart';
 import '../domain/list_data.dart';
-import '../domain/user.dart' as modle;
+import '../domain/user.dart' as model;
 import '../infrastructure/list_repository.dart';
 import 'list_state.dart';
 
@@ -36,7 +36,7 @@ class ListController extends StateNotifier<ListState> {
   }
 
   Future<void> createList({
-    required modle.User user,
+    required model.User user,
     required String listName,
   }) async {
     state =
