@@ -20,12 +20,9 @@ class AuthRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<bool> isAuthenticated() {
-    return FirebaseAuth.instance.authStateChanges().map((user) {
-      if (user == null) {
-        return false;
-      }
-      return true;
-    });
+    return FirebaseAuth.instance
+        .authStateChanges()
+        .map((user) => user == null ? false : true);
   }
 
   Future<Result<Unit, FirebaseAuthException>> signInWithEmailAndPassword({
@@ -35,7 +32,9 @@ class AuthRepository {
     return Result.asyncOf(
       () async {
         await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
+          email: email,
+          password: password,
+        );
         return unit;
       },
     );
