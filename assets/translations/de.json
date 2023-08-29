@@ -2,7 +2,8 @@
   "app_title" : "Shopping List",
   "common" : {
     "cancel_button_title" : "Abbrechen",
-    "close_button_title" : "Schließen"
+    "close_button_title" : "Schließen",
+    "list_empty_text" : "Keine Einträge vorhanden"
   },
   "sign_in_page" : {
     "sign_in_page_title" : "Authentifizierung",
@@ -30,6 +31,8 @@
   },
   "list_page" : {
     "list_page_title" : "Listenübersicht",
+    "own_lists_title" : "Eigene Listen:",
+    "invited_lists_title" : "Beigetretene Listen:",
     "expandable_fab" : {
       "add_list_label" : "Liste hinzufügen",
       "join_list_label" : "Liste beitreten"
@@ -45,10 +48,12 @@
       "share_icon_button_tooltip" : "Teilen"
     },
     "list_error" : {
+      "user_data_failure" : "Es sind keine Nutzerdaten verfügbar. Bitte versuchen Sie es erneut oder melden Sie sich erneut an",
       "create_list_failure" : "Bei der Erstellung der Liste ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
       "join_list_failure" : "Beim Beitritt zu einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut.",
       "delete_list_failure" : "Beim Löschen einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut.",
-      "exit_list_failure" : "Beim Verlassen einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut."
+      "exit_list_failure" : "Beim Verlassen einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut.",
+      "rename_list_failure" : "Beim Umbenennen einer Liste ist etwas schief gelaufen. Bitte versuchen Sie es erneut."
     },
     "dialogs" : {
       "add_list_dialog" : {
@@ -88,10 +93,57 @@
         "account_payment_info_text" : "Sie verwenden derzeit ein kostenloses Konto. Wenn Sie Listen mit anderen Nutzern teilen oder Listen bearbeiten möchten, benötigen Sie ein kostenpflichtiges Konto. Dieses kostet einmalig 5€.",
         "account_payment_question" : "Möchten Sie die Funktionen eines kostenpflichtigen Kontos erwerben?",
         "go_to_payment_button_title" : "Funktionen kaufen"
+      },
+      "edit_list_dialog" : {
+        "edit_list_dialog_title" : "Liste Bearbeiten",
+        "edit_list_info_text" : "Bitte geben Sie einen Namen ein.",
+        "text_form_field_edit_label" : "Listen Name",
+        "validator_edit_failure" : "* Bitte geben sie einen gültigen Namen ein",
+        "rename_list_button_title" : "Umbenennen"
       }
     }
   },
   "account_payment_page" : {
-    "account_payment_page_title" : "Konto Kaufen"
+    "account_payment_page_title" : "Konto Kaufen",
+    "form_title" : "Deine Bestellung:",
+    "order_field_titles" : {
+      "order_id" : "BEST.-NR.",
+      "date" : "DATUM",
+      "amount" : "GESAMT"
+    },
+    "price" : "5,00€",
+    "account_payment_info_text" : "Bitte geben Sie Ihre Kreditkarten Daten ein!",
+    "account_payment_button_title" : "Bezahlen",
+    "text_form_fields" : {
+      "credit_card_number_form_field_title" : "Kartennummer",
+      "credit_card_number_validator_failure" : "* Bitte geben Sie eine gültige Nummer ein",
+      "date_form_field_title" : "MM/YY",
+      "cvv_form_field_title" : "CVV",
+      "country_form_field_title" : "Land",
+      "zip_form_field_title" : "PLZ"
+    }
+  },
+  "list_entries_page" : {
+    "open_list_entries_bottom_tab" : "Offen",
+    "completed_list_entries_bottom_tab" : "Erledigt",
+    "list_entries_error" : {
+      "no_list_entries_available_failure" : "Es konnten keine Einträge geladen werden. Bitte versuchen Sie es erneut.",
+      "create_list_entry_failure" : "Bei der Erstellung eines Eintrages ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "toggle_list_entry_failure" : "Beim Erledigen eines Eintrages ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "delete_all_completed_entries_failure" : "Beim Löschen der Einträge ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "dialogs" : {
+      "delete_entries_dialog" : {
+        "delete_entries_dialog_title" : "Einträge löschen",
+        "delete_entries_dialog_info_text" : "Sind Sie sicher, dass Sie alle abgeschlossenen Einträge löschen wollen?",
+        "delete_all_entries_button_title" : "Alle Einträge löschen"
+      },
+      "add_entry_dialog" : {
+        "add_entries_dialog_title" : "Eintrag hinzufügen",
+        "text_form_field_add_label" : "Name des Eintrags",
+        "validator_add_failure" : "* ungültiger Name",
+        "add_entries_button_title" : "Eintrag erstellen"
+      }
+    }
   }
 }

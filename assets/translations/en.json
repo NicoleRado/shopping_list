@@ -2,7 +2,8 @@
   "app_title" : "Shopping List",
   "common" : {
     "cancel_button_title" : "Cancel",
-    "close_button_title" : "Close"
+    "close_button_title" : "Close",
+    "list_empty_text" : "No entries available"
   },
   "sign_in_page" : {
     "sign_in_page_title" : "Authenticate",
@@ -30,6 +31,8 @@
   },
   "list_page" : {
     "list_page_title" : "List Overview",
+    "own_lists_title" : "Own Lists:",
+    "invited_lists_title" : "Invited Lists:",
     "expandable_fab" : {
       "add_list_label" : "Add List",
       "join_list_label" : "Join List"
@@ -45,10 +48,13 @@
       "share_icon_button_tooltip" : "Share"
     },
     "list_error" : {
+      "user_data_failure" : "No user data is available. Please try or log in again",
       "create_list_failure" : "Something went wrong during list creation. Please try again.",
       "join_list_failure" : "Something went wrong during joining a List. Please try again.",
       "delete_list_failure" : "Something went wrong during deleting a List. Please try again.",
-      "exit_list_failure" : "Something went wrong during leaving a List. Please try again."
+      "exit_list_failure" : "Something went wrong during leaving a List. Please try again.",
+      "rename_list_failure" : "Something went wrong while renaming a List. Please try again."
+
     },
     "dialogs" : {
       "add_list_dialog" : {
@@ -88,10 +94,57 @@
         "account_payment_info_text" : "You are currently using a free account. If you want to share lists with other users or edit lists, you need a paid account. This costs 5€ once.",
         "account_payment_question" : "Would you like to purchase the features of a paid account?",
         "go_to_payment_button_title" : "Buy features"
+      },
+      "edit_list_dialog" : {
+        "edit_list_dialog_title" : "Edit List",
+        "edit_list_info_text" : "Please enter a name.",
+        "text_form_field_edit_label" : "List name",
+        "validator_edit_failure" : "* Please enter a valid name",
+        "rename_list_button_title" : "Rename"
       }
     }
   },
   "account_payment_page" : {
-    "account_payment_page_title" : "Purchase Account"
+    "account_payment_page_title" : "Purchase Account",
+    "form_title" : "Your Order:",
+    "order_field_titles" : {
+      "order_id" : "ORDER ID",
+      "date" : "DATE",
+      "amount" : "AMOUNT"
+    },
+    "price" : "$5.00",
+    "account_payment_info_text" : "Please enter your credit card data!",
+    "account_payment_button_title" : "Pay",
+    "text_form_fields" : {
+      "credit_card_number_form_field_title" : "Card number",
+      "credit_card_number_validator_failure" : "* Please enter valid card number",
+      "date_form_field_title" : "MM/YY",
+      "cvv_form_field_title" : "CVV",
+      "country_form_field_title" : "Country",
+      "zip_form_field_title" : "ZIP"
+    }
+  },
+  "list_entries_page" : {
+    "open_list_entries_bottom_tab" : "Open",
+    "completed_list_entries_bottom_tab" : "Completed",
+    "list_entries_error" : {
+      "no_list_entries_available_failure" : "No entries could be loaded. Please try again.",
+      "create_list_entry_failure" : "An error occurred while creating an entry. Please try again.",
+      "toggle_list_entry_failure" : "An error occurred while completing an entry. Please try again.",
+      "delete_all_completed_entries_failure" : "An error occurred while deleting the entries. Please try again."
+    },
+    "dialogs" : {
+      "delete_entries_dialog" : {
+        "delete_entries_dialog_title" : "Delete Entries",
+        "delete_entries_dialog_info_text" : "Are you sure you want to delete all completed entries?",
+        "delete_all_entries_button_title" : "Delete all Entries"
+      },
+      "add_entry_dialog" : {
+        "add_entries_dialog_title" : "Add Entry",
+        "text_form_field_add_label" : "Entry Name",
+        "validator_add_failure" : "* Invalid Name",
+        "add_entries_button_title" : "Create Entry"
+      }
+    }
   }
 }
