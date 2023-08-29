@@ -27,11 +27,11 @@ class ListController extends StateNotifier<ListState> {
   }
 
   final ListRepository listRepository;
-  StreamSubscription? listChanges;
+  late final StreamSubscription listChanges;
 
   @override
   void dispose() {
-    listChanges?.cancel();
+    listChanges.cancel();
     super.dispose();
   }
 
@@ -39,64 +39,77 @@ class ListController extends StateNotifier<ListState> {
     required modle.User user,
     required String listName,
   }) async {
-    final result =
-        await listRepository.createList(user: user, listName: listName);
-    state = result.when(
-      ok: (_) => state,
-      err: (_) =>
-          const ListState.isFailure(failure: ListFailure.createListFailure()),
-    );
+    state =
+        await listRepository.createList(user: user, listName: listName).then(
+              (result) => result.when(
+                ok: (_) => state,
+                err: (_) => const ListState.isFailure(
+                  failure: ListFailure.createListFailure(),
+                ),
+              ),
+            );
   }
 
   Future<void> joinList({
     required String userId,
     required String listId,
   }) async {
-    final result =
-        await listRepository.joinList(userId: userId, listId: listId);
-    state = result.when(
-      ok: (_) => state,
-      err: (err) => const ListState.isFailure(
-        failure: ListFailure.joinListFailure(),
-      ),
-    );
+    state = await listRepository.joinList(userId: userId, listId: listId).then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (err) => const ListState.isFailure(
+              failure: ListFailure.joinListFailure(),
+            ),
+          ),
+        );
   }
 
   Future<void> deleteList({required ListData listData}) async {
-    final result = await listRepository.deleteList(listData: listData);
-    state = result.when(
-      ok: (_) => state,
-      err: (_) => const ListState.isFailure(
-        failure: ListFailure.deleteListFailure(),
-      ),
-    );
+    state = await listRepository.deleteList(listData: listData).then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const ListState.isFailure(
+              failure: ListFailure.deleteListFailure(),
+            ),
+          ),
+        );
   }
 
   Future<void> exitList({
     required ListData listData,
     required String userId,
   }) async {
-    final result =
-        await listRepository.exitList(listData: listData, userId: userId);
-    state = result.when(
-      ok: (_) => state,
-      err: (_) => const ListState.isFailure(
-        failure: ListFailure.exitListFailure(),
-      ),
-    );
+    state = await listRepository
+        .exitList(
+          listData: listData,
+          userId: userId,
+        )
+        .then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const ListState.isFailure(
+              failure: ListFailure.exitListFailure(),
+            ),
+          ),
+        );
   }
 
   Future<void> renameList({
     required String oldListId,
     required String newName,
   }) async {
-    final result =
-        await listRepository.renameList(oldListId: oldListId, newName: newName);
-    state = result.when(
-      ok: (_) => state,
-      err: (_) => const ListState.isFailure(
-        failure: ListFailure.renameListFailure(),
-      ),
-    );
+    state = await listRepository
+        .renameList(
+          oldListId: oldListId,
+          newName: newName,
+        )
+        .then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const ListState.isFailure(
+              failure: ListFailure.renameListFailure(),
+            ),
+          ),
+        );
   }
 }

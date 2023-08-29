@@ -24,11 +24,11 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   final AuthRepository authRepository;
-  StreamSubscription? authStateChanges;
+  late final StreamSubscription authStateChanges;
 
   @override
   void dispose() {
-    authStateChanges?.cancel();
+    authStateChanges.cancel();
     super.dispose();
   }
 
@@ -38,16 +38,19 @@ class AuthController extends StateNotifier<AuthState> {
   }) async {
     state = const AuthState.isLoading();
 
-    final result = await authRepository.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    state = await result.when(
-      ok: (_) => state,
-      err: (_) => const AuthState.isFailure(
-        authFailure: AuthFailure.loginFailure(),
-      ),
-    );
+    state = await authRepository
+        .signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        )
+        .then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const AuthState.isFailure(
+              authFailure: AuthFailure.loginFailure(),
+            ),
+          ),
+        );
   }
 
   Future<void> register({
@@ -56,25 +59,29 @@ class AuthController extends StateNotifier<AuthState> {
   }) async {
     state = const AuthState.isLoading();
 
-    final result = await authRepository.registerWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    state = await result.when(
-      ok: (_) => state,
-      err: (err) => AuthState.isFailure(
-        authFailure: AuthFailure.registerFailure(message: err.message),
-      ),
-    );
+    state = await authRepository
+        .registerWithEmailAndPassword(
+          email: email,
+          password: password,
+        )
+        .then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (err) => AuthState.isFailure(
+              authFailure: AuthFailure.registerFailure(message: err.message),
+            ),
+          ),
+        );
   }
 
   Future<void> signOut() async {
-    final result = await authRepository.signOut();
-    state = result.when(
-      ok: (_) => state,
-      err: (_) => const AuthState.isFailure(
-        authFailure: AuthFailure.signOutFailure(),
-      ),
-    );
+    state = await authRepository.signOut().then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const AuthState.isFailure(
+              authFailure: AuthFailure.signOutFailure(),
+            ),
+          ),
+        );
   }
 }

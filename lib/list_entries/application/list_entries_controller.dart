@@ -35,11 +35,11 @@ class ListEntriesController extends StateNotifier<ListEntriesState> {
 
   final String listId;
   final ListEntriesRepository listEntriesRepository;
-  StreamSubscription? listChanges;
+  late final StreamSubscription listChanges;
 
   @override
   void dispose() {
-    listChanges?.cancel();
+    listChanges.cancel();
     super.dispose();
   }
 
@@ -51,44 +51,53 @@ class ListEntriesController extends StateNotifier<ListEntriesState> {
         isCompleted ? JsonParams.completedEntries : JsonParams.listEntries;
     final addListName =
         isCompleted ? JsonParams.listEntries : JsonParams.completedEntries;
-    final result = await listEntriesRepository.toggleEntry(
-      listId: listId,
-      entryName: entryName,
-      removeListName: removeListName,
-      addListName: addListName,
-    );
-    state = result.when(
-      ok: (_) => state,
-      err: (_) => const ListEntriesState.isFailure(
-        failure: ListWithEntriesFailure.toggleListEntryFailure(),
-      ),
-    );
+
+    state = await listEntriesRepository
+        .toggleEntry(
+          listId: listId,
+          entryName: entryName,
+          removeListName: removeListName,
+          addListName: addListName,
+        )
+        .then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const ListEntriesState.isFailure(
+              failure: ListWithEntriesFailure.toggleListEntryFailure(),
+            ),
+          ),
+        );
   }
 
   Future<void> createEntry({
     required String entryName,
   }) async {
-    final result = await listEntriesRepository.createEntry(
-      listId: listId,
-      entryName: entryName,
-    );
-    state = result.when(
-      ok: (_) => state,
-      err: (_) => const ListEntriesState.isFailure(
-        failure: ListWithEntriesFailure.createListEntryFailure(),
-      ),
-    );
+    state = await listEntriesRepository
+        .createEntry(
+          listId: listId,
+          entryName: entryName,
+        )
+        .then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const ListEntriesState.isFailure(
+              failure: ListWithEntriesFailure.createListEntryFailure(),
+            ),
+          ),
+        );
   }
 
   Future<void> deleteAllCompletedEntries() async {
-    final result = await listEntriesRepository.deleteAllCompletedEntries(
-      listId: listId,
-    );
-    state = result.when(
-      ok: (_) => state,
-      err: (_) => const ListEntriesState.isFailure(
-        failure: ListWithEntriesFailure.deleteAllCompletedEntriesFailure(),
-      ),
-    );
+    state = await listEntriesRepository
+        .deleteAllCompletedEntries(listId: listId)
+        .then(
+          (result) => result.when(
+            ok: (_) => state,
+            err: (_) => const ListEntriesState.isFailure(
+              failure:
+                  ListWithEntriesFailure.deleteAllCompletedEntriesFailure(),
+            ),
+          ),
+        );
   }
 }

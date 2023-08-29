@@ -13,10 +13,11 @@ class PaymentController extends StateNotifier<PaymentState> {
   final PaymentRepository paymentRepository;
 
   Future<void> purchaseAccount() async {
-    final result = await paymentRepository.updatePaidFlag();
-    state = result.when(
-      ok: (_) => const PaymentState.isSuccess(),
-      err: (_) => const PaymentState.isFailure(),
-    );
+    state = await paymentRepository.updatePaidFlag().then(
+          (result) => result.when(
+            ok: (_) => const PaymentState.isSuccess(),
+            err: (_) => const PaymentState.isFailure(),
+          ),
+        );
   }
 }
