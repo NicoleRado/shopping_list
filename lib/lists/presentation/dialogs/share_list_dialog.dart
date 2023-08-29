@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../helpers/presentation/styled_alert_dialog.dart';
+
 class ShareListDialog extends StatelessWidget {
   const ShareListDialog({super.key, required this.listId});
 
@@ -9,17 +11,9 @@ class ShareListDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      surfaceTintColor: Colors.white,
-      title: Center(
-        child: const Text(
-          'list_page.dialogs.share_list_dialog.share_list_dialog_title',
-        ).tr(),
-      ),
-      titleTextStyle: const TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
+    return StyledAlertDialog(
+      title: tr(
+        'list_page.dialogs.share_list_dialog.share_list_dialog_title',
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,

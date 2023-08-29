@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../auth/application/auth_controller.dart';
-import '../../../enums.dart';
+import '../../../helpers/domain/enums.dart';
 import '../dialogs/account_payment_dialog.dart';
 import '../dialogs/switch_language_dialog.dart';
 
 class PopupMenu extends ConsumerStatefulWidget {
-  const PopupMenu({super.key});
+  const PopupMenu({
+    super.key,
+    required this.isPaidAccount,
+  });
+
+  final bool isPaidAccount;
 
   @override
   ConsumerState<PopupMenu> createState() => _PopupMenuState();
@@ -24,7 +29,7 @@ class _PopupMenuState extends ConsumerState<PopupMenu> {
       value: value,
       child: Row(
         children: [
-          Icon(iconData),
+          Icon(iconData, color: Colors.black),
           const SizedBox(
             width: 5,
           ),
@@ -60,11 +65,12 @@ class _PopupMenuState extends ConsumerState<PopupMenu> {
       onSelected: (value) => _onMenuItemSelected(value),
       itemBuilder: (context) {
         return [
-          _buildPopupMenuItem(
-            value: PopupOptions.paidAccount,
-            iconData: Icons.monetization_on_outlined,
-            title: tr('list_page.popup_menu.paid_version_item_label'),
-          ),
+          if (!widget.isPaidAccount)
+            _buildPopupMenuItem(
+              value: PopupOptions.paidAccount,
+              iconData: Icons.monetization_on_outlined,
+              title: tr('list_page.popup_menu.paid_version_item_label'),
+            ),
           _buildPopupMenuItem(
             value: PopupOptions.language,
             iconData: Icons.translate,

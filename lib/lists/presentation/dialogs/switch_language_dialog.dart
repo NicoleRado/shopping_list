@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../helpers/presentation/styled_alert_dialog.dart';
 import '../../application/list_controller.dart';
 
 class SwitchLanguageDialog extends ConsumerStatefulWidget {
@@ -41,18 +42,9 @@ class _SwitchLanguageDialogState extends ConsumerState<SwitchLanguageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      surfaceTintColor: Colors.white,
-      title: Center(
-        child: const Text(
-                'list_page.dialogs.switch_language_dialog.switch_language_dialog_title')
-            .tr(),
-      ),
-      titleTextStyle: const TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-      ),
+    return StyledAlertDialog(
+      title: tr(
+          'list_page.dialogs.switch_language_dialog.switch_language_dialog_title'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

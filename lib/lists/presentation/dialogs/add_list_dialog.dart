@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../helpers/presentation/styled_alert_dialog.dart';
 import '../../application/list_controller.dart';
 
 class AddListDialog extends ConsumerStatefulWidget {
@@ -24,22 +25,10 @@ class _AddListDialogState extends ConsumerState<AddListDialog> {
   }
 
   @override
-  Widget build(BuildContext context) => AlertDialog(
-        surfaceTintColor: Colors.white,
-        title: Center(
-          child: Text(
-            widget.isCreateList
-                ? tr(
-                    'list_page.dialogs.add_list_dialog.create_list_dialog_title')
-                : tr(
-                    'list_page.dialogs.add_list_dialog.join_list_dialog_title'),
-          ),
-        ),
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-          fontSize: 22,
-        ),
+  Widget build(BuildContext context) => StyledAlertDialog(
+        title: widget.isCreateList
+            ? tr('list_page.dialogs.add_list_dialog.create_list_dialog_title')
+            : tr('list_page.dialogs.add_list_dialog.join_list_dialog_title'),
         content: Form(
           key: _formKey,
           child: Column(
@@ -91,7 +80,7 @@ class _AddListDialogState extends ConsumerState<AddListDialog> {
                                 listName: textController.text.trim(),
                               )
                           : ref.read(listControllerProvider.notifier).joinList(
-                                user: user,
+                                userId: user.uid,
                                 listId: textController.text.trim(),
                               ),
                     );

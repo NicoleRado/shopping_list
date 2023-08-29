@@ -26,14 +26,18 @@ class ListPage extends ConsumerWidget {
             SnackBar(
               content: Text(
                 next.when(
+                  userDataFailure: () =>
+                      tr('list_page.list_error.user_data_failure'),
                   createListFailure: () =>
                       tr('list_page.list_error.create_list_failure'),
                   joinListFailure: () =>
-                      tr("list_page.list_error.join_list_failure"),
+                      tr('list_page.list_error.join_list_failure'),
                   deleteListFailure: () =>
-                      tr("list_page.list_error.delete_list_failure"),
+                      tr('list_page.list_error.delete_list_failure'),
                   exitListFailure: () =>
-                      tr("list_page.list_error.exit_list_failure"),
+                      tr('list_page.list_error.exit_list_failure'),
+                  renameListFailure: () =>
+                      tr('list_page.list_error.rename_list_failure'),
                 ),
               ),
             ),

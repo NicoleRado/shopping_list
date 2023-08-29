@@ -3,120 +3,124 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oxidized/oxidized.dart';
 
+import '../../helpers/domain/constants.dart';
 import '../domain/list_data.dart';
 import '../domain/user.dart' as model;
 
-final listStreamProvider =
-    Provider.autoDispose<Stream<DocumentSnapshot<Map<String, dynamic>>>>((ref) {
-  final userId = FirebaseAuth.instance.currentUser?.uid;
-  return FirebaseFirestore.instance.collection('users').doc(userId).snapshots();
-});
-
-final listRepositoryProvider = Provider<ListRepository>((ref) {
-  return ListRepository();
-});
+final listRepositoryProvider =
+    Provider<ListRepository>((ref) => ListRepository());
 
 class ListRepository {
   ListRepository();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Stream<Result<model.User, FirebaseException>> getUserData() {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    final userRef = FirebaseFirestore.instance
+        .collection(JsonParams.usersCollection)
+        .doc(userId);
+
+    return userRef.snapshots().map(
+          (snapShot) => Result.of(() {
+            if (snapShot.data() != null) {
+              return model.User.fromJson(snapShot.data()!);
+            }
+            throw Exception('Userdata is null');
+          }),
+        );
+  }
+
   Future<Result<Unit, FirebaseException>> createList({
     required model.User user,
     required String listName,
-  }) async {
-    return Result.asyncOf(
-      () async {
-        final listRef = _firestore.collection('lists').doc();
-        final ownList = [
-          ...user.ownLists,
-          ListData(id: listRef.id, name: listName)
-        ];
-        final listData = {
-          'id': listRef.id,
-          'name': listName,
-          'listEntries': []
-        };
+  }) async =>
+      Result.asyncOf(
+        () async {
+          final listRef =
+              _firestore.collection(JsonParams.listsCollection).doc();
+          final ownList = [
+            ...user.ownLists,
+            ListData(id: listRef.id, name: listName)
+          ];
+          final listData = {
+            JsonParams.listId: listRef.id,
+            JsonParams.listName: listName,
+            JsonParams.listEntries: [],
+            JsonParams.completedEntries: [],
+          };
 
-        listRef.set(listData);
+          await listRef.set(listData);
 
-        await _firestore
-            .collection('users')
-            .doc(user.uid)
-            .update({'ownLists': ownList.map((listData) => listData.toJson())});
-        return unit;
-      },
-    );
-  }
+          await _firestore
+              .collection(JsonParams.usersCollection)
+              .doc(user.uid)
+              .update({
+            JsonParams.ownLists: ownList.map((listData) => listData.toJson())
+          });
+          return unit;
+        },
+      );
 
   Future<Result<Unit, FirebaseException>> joinList({
-    required model.User user,
+    required String userId,
     required String listId,
-  }) async {
-    return Result.asyncOf(
-      () async {
-        final listSnapshot =
-            await _firestore.collection('lists').doc(listId).get();
+  }) async =>
+      Result.asyncOf(
+        () async {
+          final userRef =
+              _firestore.collection(JsonParams.usersCollection).doc(userId);
+          final listRef =
+              _firestore.collection(JsonParams.listsCollection).doc(listId);
 
-        if (listSnapshot.data() == null) {
-          throw Exception('List dose not exists!');
-        }
-        final listData = ListData.fromJson(listSnapshot.data()!);
-        final invitedLists = [
-          ...user.invitedLists,
-          listData,
-        ];
+          final listData = await listRef.get().then((snapshot) {
+            if (snapshot.data() == null) {
+              throw Exception('List dose not exists!');
+            }
+            return ListData.fromJson(snapshot.data()!);
+          });
 
-        await _firestore.collection('users').doc(user.uid).update({
-          'invitedLists': invitedLists.map((listData) => listData.toJson())
-        });
-        return unit;
-      },
-    );
-  }
-
-  // Since cloud funcs are chargeable and there is no possibility
-  // to call update on a query call, the user data of other users
-  // must be fetched and processed in the FE. This is a security
-  // vulnerability that should be avoided in production code.
-  Future<void> _removeListDataFromList(
-    String listName,
-    ListData listData,
-  ) async {
-    final user = await _firestore
-        .collection('users')
-        .where(listName, arrayContains: listData.toJson())
-        .get();
-    final userList =
-        user.docs.map((e) => model.User.fromJson(e.data())).toList();
-
-    for (var user in userList) {
-      await _firestore.collection('users').doc(user.uid).update({
-        listName: FieldValue.arrayRemove([listData.toJson()]),
-      });
-    }
-  }
+          await userRef.update({
+            JsonParams.invitedLists: FieldValue.arrayUnion([listData.toJson()]),
+          });
+          return unit;
+        },
+      );
 
   Future<Result<Unit, FirebaseException>> deleteList({
     required ListData listData,
-  }) async {
-    return Result.asyncOf(() async {
-      await _firestore.collection('lists').doc(listData.id).delete();
-      await _removeListDataFromList('ownLists', listData);
-      await _removeListDataFromList('invitedLists', listData);
-      return unit;
-    });
-  }
+  }) async =>
+      Result.asyncOf(() async {
+        await _firestore
+            .collection(JsonParams.listsCollection)
+            .doc(listData.id)
+            .delete();
+        return unit;
+      });
 
   Future<Result<Unit, FirebaseException>> exitList({
     required String userId,
     required ListData listData,
-  }) async {
-    return Result.asyncOf(() async {
-      await _firestore.collection('users').doc(userId).update({
-        'invitedLists': FieldValue.arrayRemove([listData.toJson()]),
+  }) async =>
+      Result.asyncOf(() async {
+        await _firestore
+            .collection(JsonParams.usersCollection)
+            .doc(userId)
+            .update({
+          JsonParams.invitedLists: FieldValue.arrayRemove([listData.toJson()]),
+        });
+        return unit;
       });
-      return unit;
-    });
-  }
+
+  Future<Result<Unit, FirebaseException>> renameList({
+    required String oldListId,
+    required String newName,
+  }) async =>
+      Result.asyncOf(() async {
+        await _firestore
+            .collection(JsonParams.listsCollection)
+            .doc(oldListId)
+            .update({JsonParams.listName: newName});
+        return unit;
+      });
 }

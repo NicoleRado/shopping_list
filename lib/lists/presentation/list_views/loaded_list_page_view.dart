@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../helpers/presentation/list_empty_text.dart';
+import '../../../helpers/presentation/styled_scaffold.dart';
 import '../../application/list_controller.dart';
 import '../../domain/user.dart';
 import '../button_widgets/expandable_fab.dart';
@@ -26,37 +28,33 @@ class _ListPageViewState extends ConsumerState<LoadedListPageView> {
     final isPaidAccount = widget.user.isPaidAccount;
     final userId = widget.user.uid;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-        actions: const [PopupMenu()],
-      ),
-      floatingActionButton: const ExpandableFab(),
+    return StyledScaffold(
+      title: widget.title,
+      actions: [PopupMenu(isPaidAccount: isPaidAccount)],
+      floatingActionButton: ExpandableFab(isPaidAccount: isPaidAccount),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(listControllerProvider),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (ownLists.isNotEmpty)
-              ShoppingListView(
-                listData: ownLists,
-                isOwnList: true,
-                isPaidAccount: isPaidAccount,
-                userId: userId,
+        child: ownLists.isEmpty && invitedLists.isEmpty
+            ? const ListEmptyText()
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (ownLists.isNotEmpty)
+                    ShoppingListView(
+                      listData: ownLists,
+                      isOwnList: true,
+                      isPaidAccount: isPaidAccount,
+                      userId: userId,
+                    ),
+                  if (invitedLists.isNotEmpty)
+                    ShoppingListView(
+                      listData: invitedLists,
+                      isOwnList: false,
+                      isPaidAccount: isPaidAccount,
+                      userId: userId,
+                    ),
+                ],
               ),
-            if (invitedLists.isNotEmpty)
-              ShoppingListView(
-                listData: invitedLists,
-                isOwnList: false,
-                isPaidAccount: isPaidAccount,
-                userId: userId,
-              ),
-            if (ownLists.isEmpty && invitedLists.isEmpty)
-              const Center(child: Text('No List available'))
-          ],
-        ),
       ),
     );
   }

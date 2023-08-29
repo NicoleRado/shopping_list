@@ -5,7 +5,9 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../dialogs/add_list_dialog.dart';
 
 class ExpandableFab extends StatefulWidget {
-  const ExpandableFab({super.key});
+  const ExpandableFab({super.key, required this.isPaidAccount});
+
+  final bool isPaidAccount;
 
   @override
   State<ExpandableFab> createState() => _ExpandableFabState();
@@ -37,6 +39,7 @@ class _ExpandableFabState extends State<ExpandableFab> {
       spacing: 8,
       children: [
         SpeedDialChild(
+          key: const Key('addList'),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           child: const Icon(Icons.add),
@@ -47,17 +50,19 @@ class _ExpandableFabState extends State<ExpandableFab> {
                 const AddListDialog(isCreateList: true),
           ),
         ),
-        SpeedDialChild(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          child: const Icon(Icons.join_inner_sharp),
-          label: tr('list_page.expandable_fab.join_list_label'),
-          onTap: () => showDialog(
-            context: context,
-            builder: (BuildContext context) =>
-                const AddListDialog(isCreateList: false),
+        if (widget.isPaidAccount)
+          SpeedDialChild(
+            key: const Key('joinList'),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: const Icon(Icons.join_inner_sharp),
+            label: tr('list_page.expandable_fab.join_list_label'),
+            onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) =>
+                  const AddListDialog(isCreateList: false),
+            ),
           ),
-        ),
       ],
     );
   }
