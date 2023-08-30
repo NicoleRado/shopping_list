@@ -5,9 +5,8 @@ import 'package:oxidized/oxidized.dart';
 import '../../helpers/domain/constants.dart';
 import '../domain/list_with_entries.dart';
 
-final listEntriesRepositoryProvider = Provider<ListEntriesRepository>(
-  (ref) => ListEntriesRepository(),
-);
+final listEntriesRepositoryProvider =
+    Provider<ListEntriesRepository>((ref) => ListEntriesRepository());
 
 class ListEntriesRepository {
   ListEntriesRepository();
@@ -20,6 +19,7 @@ class ListEntriesRepository {
     final listRef = FirebaseFirestore.instance
         .collection(JsonParams.listsCollection)
         .doc(listId);
+
     return listRef.snapshots().map(
           (snapShot) => Result.of(() {
             if (snapShot.data() != null) {
@@ -39,6 +39,7 @@ class ListEntriesRepository {
     return Result.asyncOf(() async {
       final listRef =
           _firestore.collection(JsonParams.listsCollection).doc(listId);
+
       await listRef.update({
         removeListName: FieldValue.arrayRemove([entryName]),
       });
@@ -56,6 +57,7 @@ class ListEntriesRepository {
     return Result.asyncOf(() async {
       final listRef =
           _firestore.collection(JsonParams.listsCollection).doc(listId);
+
       await listRef.update({
         JsonParams.listEntries: FieldValue.arrayUnion([entryName]),
       });
@@ -69,6 +71,7 @@ class ListEntriesRepository {
     return Result.asyncOf(() async {
       final listRef =
           _firestore.collection(JsonParams.listsCollection).doc(listId);
+
       await listRef.update({
         JsonParams.completedEntries: [],
       });

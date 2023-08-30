@@ -5,7 +5,8 @@ import 'package:oxidized/oxidized.dart';
 
 import '../../helpers/domain/constants.dart';
 
-final paymentRepositoryProvider = Provider((ref) => PaymentRepository());
+final paymentRepositoryProvider =
+    Provider<PaymentRepository>((ref) => PaymentRepository());
 
 class PaymentRepository {
   PaymentRepository();
@@ -16,10 +17,9 @@ class PaymentRepository {
     return Result.asyncOf(() async {
       final userId = FirebaseAuth.instance.currentUser?.uid;
       final userRef =
-          _firestore.collection(JsonParams.usersCollection).doc('$userId');
-      await userRef.update({
-        JsonParams.isPaidAccount: true,
-      });
+          _firestore.collection(JsonParams.usersCollection).doc(userId);
+
+      await userRef.update({JsonParams.isPaidAccount: true});
       return unit;
     });
   }
