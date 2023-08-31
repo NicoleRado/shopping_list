@@ -6,17 +6,23 @@ import 'package:oxidized/oxidized.dart';
 import '../../helpers/domain/constants.dart';
 import '../../lists/domain/user.dart' as model;
 
-final authRepositoryProvider =
-    Provider<AuthRepository>((ref) => AuthRepository());
+final authRepositoryProvider = Provider<AuthRepository>((ref) => AuthRepository(
+      auth: FirebaseAuth.instance,
+      firestore: FirebaseFirestore.instance,
+    ));
 
 class AuthRepository {
-  AuthRepository();
+  AuthRepository({
+    required FirebaseAuth auth,
+    required FirebaseFirestore firestore,
+  })  : _firestore = firestore,
+        _auth = auth;
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
 
   Stream<bool> isAuthenticated() {
-    return FirebaseAuth.instance.authStateChanges().map(
+    return _auth.authStateChanges().map(
           (user) => user == null ? false : true,
         );
   }
@@ -36,7 +42,7 @@ class AuthRepository {
     );
   }
 
-  Future<Result<Unit, FirebaseAuthException>> registerWithEmailAndPassword({
+  Future<Result<Unit, Exception>> registerWithEmailAndPassword({
     required String email,
     required String password,
   }) async {

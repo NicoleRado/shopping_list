@@ -68,7 +68,7 @@ class AuthController extends StateNotifier<AuthState> {
           (result) => result.when(
             ok: (_) => state,
             err: (err) => AuthState.isFailure(
-              authFailure: AuthFailure.registerFailure(message: err.message),
+              authFailure: AuthFailure.registerFailure(message: err.toString()),
             ),
           ),
         );
