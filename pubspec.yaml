@@ -49,6 +49,9 @@ dependencies:
   flutter_credit_card: ^3.0.7
   mask_text_input_formatter: ^2.5.0
   cloud_functions: ^4.4.0
+  mockito: ^5.4.2
+  firebase_auth_mocks: ^0.12.0
+  fake_cloud_firestore: ^2.4.1+1
 
 dev_dependencies:
   flutter_test:
