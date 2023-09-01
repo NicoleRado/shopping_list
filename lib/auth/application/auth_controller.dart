@@ -77,7 +77,7 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> signOut() async {
     state = await authRepository.signOut().then(
           (result) => result.when(
-            ok: (_) => state,
+            ok: (_) => const AuthState.isLoading(),
             err: (_) => const AuthState.isFailure(
               authFailure: AuthFailure.signOutFailure(),
             ),
