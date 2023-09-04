@@ -6,19 +6,21 @@ import '../../helpers/domain/constants.dart';
 import '../domain/list_with_entries.dart';
 
 final listEntriesRepositoryProvider =
-    Provider<ListEntriesRepository>((ref) => ListEntriesRepository());
+    Provider<ListEntriesRepository>((ref) => ListEntriesRepository(
+          firestore: FirebaseFirestore.instance,
+        ));
 
 class ListEntriesRepository {
-  ListEntriesRepository();
+  ListEntriesRepository({required FirebaseFirestore firestore})
+      : _firestore = firestore;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
 
-  Stream<Result<ListWithEntries, FirebaseException>> getEntries({
+  Stream<Result<ListWithEntries, Exception>> getEntries({
     required String listId,
   }) {
-    final listRef = FirebaseFirestore.instance
-        .collection(JsonParams.listsCollection)
-        .doc(listId);
+    final listRef =
+        _firestore.collection(JsonParams.listsCollection).doc(listId);
 
     return listRef.snapshots().map(
           (snapShot) => Result.of(() {
