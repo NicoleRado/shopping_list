@@ -6,16 +6,24 @@ import 'package:oxidized/oxidized.dart';
 import '../../helpers/domain/constants.dart';
 
 final paymentRepositoryProvider =
-    Provider<PaymentRepository>((ref) => PaymentRepository());
+    Provider<PaymentRepository>((ref) => PaymentRepository(
+          auth: FirebaseAuth.instance,
+          firestore: FirebaseFirestore.instance,
+        ));
 
 class PaymentRepository {
-  PaymentRepository();
+  PaymentRepository({
+    required FirebaseAuth auth,
+    required FirebaseFirestore firestore,
+  })  : _auth = auth,
+        _firestore = firestore;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
 
   Future<Result<Unit, FirebaseException>> updatePaidFlag() async {
     return Result.asyncOf(() async {
-      final userId = FirebaseAuth.instance.currentUser?.uid;
+      final userId = _auth.currentUser?.uid;
       final userRef =
           _firestore.collection(JsonParams.usersCollection).doc(userId);
 
