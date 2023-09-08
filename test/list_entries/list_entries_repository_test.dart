@@ -32,7 +32,7 @@ void main() {
   late MockFirebaseFirestore mockitoFirestore;
   late FakeFirebaseFirestore fakeFirestore;
 
-  late CollectionReference<Map<String, dynamic>> listCollectionRef;
+  late CollectionReference<Map<String, dynamic>> fakeCollectionReference;
   late MockDocumentReference<Map<String, dynamic>> mockitoDocumentReference;
   late MockCollectionReference<Map<String, dynamic>> mockitoCollectionReference;
 
@@ -45,7 +45,8 @@ void main() {
     mockitoFirestore = MockFirebaseFirestore();
     fakeFirestore = FakeFirebaseFirestore();
 
-    listCollectionRef = fakeFirestore.collection(JsonParams.listsCollection);
+    fakeCollectionReference =
+        fakeFirestore.collection(JsonParams.listsCollection);
     mockitoDocumentReference = MockDocumentReference();
     mockitoCollectionReference = MockCollectionReference();
 
@@ -55,7 +56,7 @@ void main() {
         ListEntriesRepository(firestore: mockitoFirestore);
     fakeListEntriesRepository = ListEntriesRepository(firestore: fakeFirestore);
 
-    listCollectionRef.doc(listId).set(listData);
+    fakeCollectionReference.doc(listId).set(listData);
 
     when(mockitoFirestore.collection(any))
         .thenReturn(mockitoCollectionReference);
@@ -108,7 +109,7 @@ void main() {
         removeListName: JsonParams.listEntries,
         addListName: JsonParams.completedEntries,
       );
-      final doc = await listCollectionRef.doc(listId).get();
+      final doc = await fakeCollectionReference.doc(listId).get();
       final data = doc.data()!;
       expect(result.isOk(), true);
 
@@ -124,7 +125,7 @@ void main() {
         removeListName: JsonParams.completedEntries,
         addListName: JsonParams.listEntries,
       );
-      final doc = await listCollectionRef.doc(listId).get();
+      final doc = await fakeCollectionReference.doc(listId).get();
       final data = doc.data()!;
       expect(result.isOk(), true);
       expect(data[JsonParams.completedEntries], []);
@@ -154,7 +155,7 @@ void main() {
         listId: listId,
         entryName: newEntryName,
       );
-      final doc = await listCollectionRef.doc(listId).get();
+      final doc = await fakeCollectionReference.doc(listId).get();
       final data = doc.data()!;
 
       expect(result.isOk(), true);
@@ -180,7 +181,7 @@ void main() {
       final result = await fakeListEntriesRepository.deleteAllCompletedEntries(
         listId: listId,
       );
-      final doc = await listCollectionRef.doc(listId).get();
+      final doc = await fakeCollectionReference.doc(listId).get();
       final data = doc.data()!;
 
       expect(result.isOk(), true);
