@@ -14,6 +14,7 @@ class JsonParams {
 
   static const String usersCollection = 'users';
 
+  static const String userId = 'uid';
   static const String ownLists = 'ownLists';
   static const String invitedLists = 'invitedLists';
   static const String isPaidAccount = 'isPaidAccount';
