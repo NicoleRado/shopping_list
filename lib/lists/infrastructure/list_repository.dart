@@ -7,19 +7,25 @@ import '../../helpers/domain/constants.dart';
 import '../domain/list_data.dart';
 import '../domain/user.dart' as model;
 
-final listRepositoryProvider =
-    Provider<ListRepository>((ref) => ListRepository());
+final listRepositoryProvider = Provider<ListRepository>((ref) => ListRepository(
+      auth: FirebaseAuth.instance,
+      firestore: FirebaseFirestore.instance,
+    ));
 
 class ListRepository {
-  ListRepository();
+  ListRepository({
+    required FirebaseAuth auth,
+    required FirebaseFirestore firestore,
+  })  : _auth = auth,
+        _firestore = firestore;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth;
+  final FirebaseFirestore _firestore;
 
-  Stream<Result<model.User, FirebaseException>> getUserData() {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    final userRef = FirebaseFirestore.instance
-        .collection(JsonParams.usersCollection)
-        .doc(userId);
+  Stream<Result<model.User, Exception>> getUserData() {
+    final userId = _auth.currentUser?.uid;
+    final userRef =
+        _firestore.collection(JsonParams.usersCollection).doc(userId);
 
     return userRef.snapshots().map(
           (snapShot) => Result.of(() {
@@ -56,13 +62,14 @@ class ListRepository {
               .collection(JsonParams.usersCollection)
               .doc(user.uid)
               .update({
-            JsonParams.ownLists: ownList.map((listData) => listData.toJson())
+            JsonParams.ownLists:
+                ownList.map((listData) => listData.toJson()).toList()
           });
           return unit;
         },
       );
 
-  Future<Result<Unit, FirebaseException>> joinList({
+  Future<Result<Unit, Exception>> joinList({
     required String userId,
     required String listId,
   }) async =>
@@ -88,12 +95,12 @@ class ListRepository {
       );
 
   Future<Result<Unit, FirebaseException>> deleteList({
-    required ListData listData,
+    required String listId,
   }) async =>
       Result.asyncOf(() async {
         await _firestore
             .collection(JsonParams.listsCollection)
-            .doc(listData.id)
+            .doc(listId)
             .delete();
         return unit;
       });

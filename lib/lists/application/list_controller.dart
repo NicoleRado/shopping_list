@@ -64,8 +64,8 @@ class ListController extends StateNotifier<ListState> {
         );
   }
 
-  Future<void> deleteList({required ListData listData}) async {
-    state = await listRepository.deleteList(listData: listData).then(
+  Future<void> deleteList({required String listId}) async {
+    state = await listRepository.deleteList(listId: listId).then(
           (result) => result.when(
             ok: (_) => state,
             err: (_) => const ListState.isFailure(

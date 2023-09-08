@@ -21,7 +21,7 @@ class DeleteListDialog extends ConsumerWidget {
     if (isOwnList) {
       await ref
           .read(listControllerProvider.notifier)
-          .deleteList(listData: listData);
+          .deleteList(listId: listData.id);
     } else {
       await ref
           .read(listControllerProvider.notifier)
