@@ -77,8 +77,9 @@ void main() {
         'Tests if Error is thrown, when signInWithEmailAndPassword returns Error',
         () async {
       when(mockitoAuth.signInWithEmailAndPassword(
-              email: email, password: password))
-          .thenThrow(authException);
+        email: anyNamed('email'),
+        password: anyNamed('password'),
+      )).thenThrow(authException);
 
       final result =
           await mockitoAuthRepositoryWithFakeAuth.signInWithEmailAndPassword(
@@ -136,8 +137,9 @@ void main() {
         'Tests if Error is thrown, when createUserWithEmailAndPassword returns Error',
         () async {
       when(mockitoAuth.createUserWithEmailAndPassword(
-              email: email, password: password))
-          .thenThrow(authException);
+        email: anyNamed('email'),
+        password: anyNamed('password'),
+      )).thenThrow(authException);
 
       final result =
           await mockitoAuthRepositoryWithFakeAuth.registerWithEmailAndPassword(
