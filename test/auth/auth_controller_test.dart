@@ -81,8 +81,9 @@ void main() {
       provideDummy<Result<Unit, FirebaseAuthException>>(const Ok(unit));
 
       when(mockAuthRepository.signInWithEmailAndPassword(
-              email: email, password: password))
-          .thenAnswer((_) => Future.value(const Ok(unit)));
+        email: anyNamed('email'),
+        password: anyNamed('password'),
+      )).thenAnswer((_) => Future.value(const Ok(unit)));
 
       await authController.login(email: email, password: password);
 
@@ -95,8 +96,9 @@ void main() {
       provideDummy<Result<Unit, FirebaseAuthException>>(Err(authException));
 
       when(mockAuthRepository.signInWithEmailAndPassword(
-              email: email, password: password))
-          .thenAnswer((_) => Future.value(Err(authException)));
+        email: anyNamed('email'),
+        password: anyNamed('password'),
+      )).thenAnswer((_) => Future.value(Err(authException)));
 
       await authController.login(email: email, password: password);
 
@@ -111,8 +113,9 @@ void main() {
       provideDummy<Result<Unit, Exception>>(const Ok(unit));
 
       when(mockAuthRepository.registerWithEmailAndPassword(
-              email: email, password: password))
-          .thenAnswer((_) => Future.value(const Ok(unit)));
+        email: anyNamed('email'),
+        password: anyNamed('password'),
+      )).thenAnswer((_) => Future.value(const Ok(unit)));
 
       await authController.register(email: email, password: password);
 
@@ -125,8 +128,9 @@ void main() {
       provideDummy<Result<Unit, Exception>>(Err(authException));
 
       when(mockAuthRepository.registerWithEmailAndPassword(
-              email: email, password: password))
-          .thenAnswer((_) => Future.value(Err(authException)));
+        email: anyNamed('email'),
+        password: anyNamed('password'),
+      )).thenAnswer((_) => Future.value(Err(authException)));
 
       await authController.register(email: email, password: password);
 
@@ -143,10 +147,10 @@ void main() {
       expect(authController.state, const AuthState.isUnauthenticated());
 
       isAuthenticatedController.add(true);
-      Future.delayed(Duration.zero);
+      await Future.delayed(Duration.zero);
       expect(authController.state, const AuthState.isAuthenticated());
 
-      provideDummy<Result<Unit, Exception>>(const Ok(unit));
+      provideDummy<Result<Unit, FirebaseAuthException>>(const Ok(unit));
 
       when(mockAuthRepository.signOut())
           .thenAnswer((_) => Future.value(const Ok(unit)));
@@ -158,7 +162,7 @@ void main() {
 
     test('tests, if an authException leads to an failure state during signout',
         () async {
-      provideDummy<Result<Unit, Exception>>(Err(authException));
+      provideDummy<Result<Unit, FirebaseAuthException>>(Err(authException));
 
       when(mockAuthRepository.signOut())
           .thenAnswer((_) => Future.value(Err(authException)));
