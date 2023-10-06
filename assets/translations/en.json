@@ -32,7 +32,7 @@
   "list_page" : {
     "list_page_title" : "List Overview",
     "own_lists_title" : "Own Lists:",
-    "invited_lists_title" : "Invited Lists:",
+    "invited_lists_title" : "Joined Lists:",
     "expandable_fab" : {
       "add_list_label" : "Add List",
       "join_list_label" : "Join List"
